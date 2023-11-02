@@ -34,7 +34,7 @@
         <ul class="fixed-extension-list">
           <li class="fixed-extension-item">
             <input type="checkbox" name="bat" id="bat" />
-            <label class="button active" for="bat">bat</label>
+            <label class="button" for="bat">bat</label>
           </li>
           <li class="fixed-extension-item">
             <input type="checkbox" name="cmd" id="cmd" />
@@ -87,47 +87,12 @@
 
         <div class="custom-extension-saved-area">
           <div class="custom-extension-count">
-            <span class="current">3</span> / 200
+            <span class="current">0</span> / 200
           </div>
 
           <ul class="custom-extension-list">
             <li class="custom-extension-item button">
               <span class="custom-extension-name">sh</span>
-              <button class="delete">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </li>
-
-            <li class="custom-extension-item button">
-              <span class="custom-extension-name">jp</span>
-              <button class="delete">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </li>
-
-            <li class="custom-extension-item button">
-              <span class="custom-extension-name">abcdefghijklmnopqrst</span>
-              <button class="delete">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </li>
-
-            <li class="custom-extension-item button">
-              <span class="custom-extension-name">ssd</span>
-              <button class="delete">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </li>
-
-            <li class="custom-extension-item button">
-              <span class="custom-extension-name">fd</span>
-              <button class="delete">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </li>
-
-            <li class="custom-extension-item button">
-              <span class="custom-extension-name">test</span>
               <button class="delete">
                 <i class="fa-solid fa-xmark"></i>
               </button>
@@ -145,7 +110,7 @@
           <input id="file" type="file" name="file" />
           <label class="file" for="file">
             <i class="fa-solid fa-arrow-up-from-bracket"></i>
-            파일 선택하기
+            <span>파일 선택하기</span>
           </label>
 
           <button class="submit">
@@ -155,5 +120,7 @@
         </div>
       </section>
     </div>
+
+    <script src="../static/js/index.js"></script>
   </body>
 </html>
