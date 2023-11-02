@@ -1,0 +1,17 @@
+:root {
+  /* colors */
+  --dark: #2a343d;
+  --border: #e0e0e0;
+  --white: #fff;
+  --placeholder: #b7b7b7;
+  --primary: #5f49dc;
+
+  /* shadow */
+  --button-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
+
+  /* size */
+  --container-size: 768px;
+
+  /* padding */
+  --container-padding: 60px;
+}

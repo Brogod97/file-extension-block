@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <title>파일 확장자 차단 | 조형신</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <img src="../images/logo.svg" alt="플로우 로고" />
+      </div>
+
+      <section class="fixed-extension">
+        <div class="section-header">
+          <h3 class="section-title">고정 확장자</h3>
+          <div class="reset-button">
+            <span>초기화 하기</span>
+            <i class="refresh-icon fa-solid fa-rotate-right"></i>
+          </div>
+        </div>
+
+        <ul class="fixed-extension-list">
+          <li class="fixed-extension-item">
+            <input type="checkbox" name="bat" id="bat" />
+            <label class="button active" for="bat">bat</label>
+          </li>
+          <li class="fixed-extension-item">
+            <input type="checkbox" name="cmd" id="cmd" />
+            <label class="button" for="cmd">cmd</label>
+          </li>
+          <li class="fixed-extension-item">
+            <input type="checkbox" name="com" id="com" />
+            <label class="button" for="com">com</label>
+          </li>
+          <li class="fixed-extension-item">
+            <input type="checkbox" name="cpl" id="cpl" />
+            <label class="button" for="cpl">cpl</label>
+          </li>
+          <li class="fixed-extension-item">
+            <input type="checkbox" name="exe" id="exe" />
+            <label class="button" for="exe">exe</label>
+          </li>
+          <li class="fixed-extension-item">
+            <input type="checkbox" name="scr" id="scr" />
+            <label class="button" for="scr">scr</label>
+          </li>
+          <li class="fixed-extension-item">
+            <input type="checkbox" name="js" id="js" />
+            <label class="button" for="js">js</label>
+          </li>
+        </ul>
+      </section>
+
+      <section class="custom-extension">
+        <div class="section-header">
+          <h3 class="section-title">커스텀 확장자</h3>
+          <div class="reset-button">
+            <span>초기화 하기</span>
+            <i class="refresh-icon fa-solid fa-rotate-right"></i>
+          </div>
+        </div>
+
+        <div class="valid-check-info">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>확장자는 최대 20글자까지 입력 가능합니다.</span>
+        </div>
+
+        <div class="custom-extension-input-area">
+          <input type="text" placeholder="확장자를 입력해주세요" />
+          <button class="add-button button">
+            <i class="fa-solid fa-plus"></i>
+            추가
+          </button>
+        </div>
+
+        <div class="custom-extension-saved-area">
+          <div class="custom-extension-count">
+            <span class="current">3</span> / 200
+          </div>
+
+          <ul class="custom-extension-list">
+            <li class="custom-extension-item button">
+              <span class="custom-extension-name">sh</span>
+              <button class="delete">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </li>
+
+            <li class="custom-extension-item button">
+              <span class="custom-extension-name">jp</span>
+              <button class="delete">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </li>
+
+            <li class="custom-extension-item button">
+              <span class="custom-extension-name">abcdefghijklmnopqrst</span>
+              <button class="delete">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </li>
+
+            <li class="custom-extension-item button">
+              <span class="custom-extension-name">ssd</span>
+              <button class="delete">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </li>
+
+            <li class="custom-extension-item button">
+              <span class="custom-extension-name">fd</span>
+              <button class="delete">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </li>
+
+            <li class="custom-extension-item button">
+              <span class="custom-extension-name">test</span>
+              <button class="delete">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="file-upload">
+        <div class="section-header">
+          <h3 class="section-title">파일 업로드</h3>
+        </div>
+
+        <div class="file-upload-area">
+          <input id="file" type="file" name="file" />
+          <label class="file" for="file">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+            파일 선택하기
+          </label>
+
+          <button class="submit">
+            파일 제출
+            <img src="../images/long-arrow.svg" aria-hidden="" />
+          </button>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
