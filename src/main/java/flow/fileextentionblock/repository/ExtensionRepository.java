@@ -52,11 +52,6 @@ public class ExtensionRepository {
         }
     }
 
-    public Optional<Extension> findById(Long id) {
-        return jdbcTemplate.query("select * from extension where id = ?", extensionRowMapper(), id)
-                            .stream().findAny();
-    }
-
     public Optional<Extension> findByName(String name) {
         return jdbcTemplate.query("select * from extension where name = ?", extensionRowMapper(), name)
                             .stream().findAny();
@@ -64,10 +59,6 @@ public class ExtensionRepository {
 
     public List<Extension> findAllByType(String type) {
         return jdbcTemplate.query("select * from extension where type = ?", extensionRowMapper(), type);
-    }
-
-    public List<Extension> findAll() {
-        return jdbcTemplate.query("select * from extension", extensionRowMapper());
     }
 
     private RowMapper<Extension> extensionRowMapper() {

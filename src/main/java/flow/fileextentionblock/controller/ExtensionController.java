@@ -13,38 +13,10 @@ import java.util.Optional;
 @Controller
 public class ExtensionController {
 
-    /*
-    1. fixed 클릭 시 DB에 추가 (이미 입력된 경우 쓰루) - 이름, 타입 필요
-    2. 커스텀 확장자명 입력 시 추가 (이미 입력된 경우 쓰루) - 이름 타입 필요
-    3. 넘어온 파일의 확장자가 DB의 값과 일치하는지 체크 - 이름 필요
-
-     */
-
     private final ExtensionService extensionService;
 
     public ExtensionController(ExtensionService extensionService) {
         this.extensionService = extensionService;
-    }
-
-    @PostMapping("/checkValidExtension")
-    @ResponseBody
-    public boolean checkValidExtension(@RequestParam String name) {
-        Optional<Extension> extension = extensionService.checkValidExtension(name);
-
-        if(extension.isPresent()) {
-            String checked = extension.get().getChecked();
-            String type = extension.get().getType();
-
-            if(type.equals("F")) {
-                return checked.equals("Y") ? false : true;
-            }
-
-            if(type.equals("C")){
-                return false;
-            }
-        }
-
-        return true;
     }
 
     @PostMapping("/add")
@@ -69,15 +41,32 @@ public class ExtensionController {
         return "삭제 완료";
     }
 
-    /**
-     * 초기화 기능 수행
-     * @Param type ("F", "C") - Fixed, Custom
-     */
     @PostMapping("/reset")
     @ResponseBody
     public String resetExtension(@RequestParam("type") String type) {
         extensionService.resetExtension(type);
 
         return "요청 수행";
+    }
+
+    @PostMapping("/checkValidExtension")
+    @ResponseBody
+    public boolean checkValidExtension(@RequestParam String name) {
+        Optional<Extension> extension = extensionService.checkValidExtension(name);
+
+        if(extension.isPresent()) {
+            String checked = extension.get().getChecked();
+            String type = extension.get().getType();
+
+            if(type.equals("F")) {
+                return checked.equals("Y") ? false : true;
+            }
+
+            if(type.equals("C")){
+                return false;
+            }
+        }
+
+        return true;
     }
 }

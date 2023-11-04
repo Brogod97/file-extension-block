@@ -15,7 +15,6 @@
   transition: all 0.15s ease-in-out;
 }
 
-/* FIXME: 리팩토링 고려 */
 .custom-extension-item.button {
   padding: 6px 8px;
 }
@@ -42,7 +41,6 @@
 }
 
 /* Style */
-
 body {
   width: 100vw;
   height: 100vh;
@@ -53,9 +51,6 @@ body {
 }
 
 .container {
-  /* width: calc(var(--container-size) - (var(--container-padding) * 2)); */
-  /* height: 90%; */
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,7 +62,6 @@ body {
 }
 
 .logo {
-  /* FIXME: 우측 삐져나온 곳 처리 */
   margin-bottom: 50px;
 }
 
@@ -133,7 +127,6 @@ body {
   cursor: pointer;
 }
 
-/* FIXME: 호버 옵션 다 비슷하니 리팩토링 고려 */
 .fixed-extension-item > label:hover,
 .add-button:hover,
 .submit:hover,
