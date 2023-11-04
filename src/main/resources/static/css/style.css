@@ -254,6 +254,8 @@ body {
   padding: 8px 20px;
   margin-right: 12px;
   border: 1px dashed var(--border);
+
+  cursor: pointer;
 }
 
 .file > i {
