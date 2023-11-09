@@ -1,12 +1,20 @@
-const fixedExtensionItems = document.querySelectorAll(
+const fixedExtensionItemButtons = document.querySelectorAll(
   ".fixed-extension-item .button"
 );
+const customExtensionInput = document.querySelector(
+  ".custom-extension-input-area > input"
+);
+const addButton = document.querySelector(".add-button");
+let deleteButtons = document.querySelectorAll(".delete");
+const fileInput = document.getElementById("file");
+const fileText = document.querySelector(".file > span");
+const submitButton = document.querySelector(".submit");
 
 /**
- * 고정 확장자 클릭 시 이벤트
+ * 고정 확장자 버튼 클릭 이벤트
  * */
-fixedExtensionItems.forEach((item) => {
-  item.addEventListener("click", function () {
+fixedExtensionItemButtons.forEach((button) => {
+  button.addEventListener("click", function () {
     // 스타일 활성화 (토글)
     this.classList.toggle("active");
 
@@ -31,11 +39,6 @@ fixedExtensionItems.forEach((item) => {
 /**
  * 확장자 입력 시 추가 버튼 활성화
  */
-const customExtensionInput = document.querySelector(
-  ".custom-extension-input-area > input"
-);
-const addButton = document.querySelector(".add-button");
-
 customExtensionInput.addEventListener("input", function () {
   const inputValue = customExtensionInput.value;
 
@@ -86,10 +89,7 @@ function addCustomExtensionAjax(newCustomName) {
 }
 
 // Enter 입력 시 추가 수행
-
 // 커스텀 확장자 삭제
-let deleteButtons = document.querySelectorAll(".delete");
-
 deleteButtons.forEach((delButton) => {
   delButton.addEventListener("click", function () {
     const extensionName = this.previousElementSibling.textContent;
@@ -114,11 +114,6 @@ deleteButtons.forEach((delButton) => {
 /**
  * 파일 업로드 시 파일명 표기
  */
-const fileInput = document.getElementById("file");
-const fileText = document.querySelector(".file > span");
-
-const submitButton = document.querySelector(".submit");
-
 fileInput.addEventListener("change", function () {
   if (fileInput.files.length > 0) {
     const fileName = fileInput.files[0].name;
@@ -182,7 +177,7 @@ function resetExtensionList(type) {
 
   // 화면 초기화
   if (type === "F") {
-    fixedExtensionItems.forEach((item) => {
+    fixedExtensionItemButtons.forEach((item) => {
       item.classList.remove("active");
     });
   }
