@@ -64,7 +64,12 @@ addButton.addEventListener("click", function () {
     customExtensionInput.value = "";
     alert("커스텀 확장자 최대 저장 횟수를 초과하였습니다.");
   } else {
-    addCustomExtension(newCustomName, Type.Custom);
+    if (extensionValidateCheck(newCustomName)) {
+      addCustomExtension(newCustomName, Type.Custom);
+    } else {
+      alert("영문 대소문자를 입력해주세요! (한글, 공백, 특수문자 입력 불가)");
+      customExtensionInput.value = "";
+    }
   }
 });
 
@@ -192,6 +197,21 @@ function updateFixedExtension(extensionName, type, isChecked) {
       console.log("Fixed Extension Update 실패");
     },
   });
+}
+
+/**
+ * 확장자명 유효성 검사
+ * @param name
+ * @returns boolean
+ */
+function extensionValidateCheck(name) {
+  const regex = /^[a-zA-Z]+$/;
+
+  if (regex.test(name)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
