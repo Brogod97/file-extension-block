@@ -16,6 +16,11 @@ const submitButton = document.querySelector(".submit");
 
 const resetButtons = document.querySelectorAll(".reset-button");
 
+const Type = {
+  Fixed: "F",
+  Custom: "C",
+};
+
 // Events
 
 /**
@@ -30,7 +35,7 @@ fixedExtensionItemButtons.forEach((button) => {
     const extensionName = this.textContent;
     let isChecked = this.classList.contains("active") ? "N" : "Y";
 
-    updateFixedExtension(extensionName, "F", isChecked);
+    updateFixedExtension(extensionName, Type.Fixed, isChecked);
   });
 });
 
@@ -59,7 +64,7 @@ addButton.addEventListener("click", function () {
     customExtensionInput.value = "";
     alert("커스텀 확장자 최대 저장 횟수를 초과하였습니다.");
   } else {
-    addCustomExtension(newCustomName, "C");
+    addCustomExtension(newCustomName, Type.Custom);
   }
 });
 
@@ -91,7 +96,7 @@ resetButtons.forEach((button) => {
   button.addEventListener("click", function () {
     if (this.classList.contains("fixed")) {
       // DB 초기화
-      const type = "F";
+      const type = Type.Fixed;
       resetExtension(type);
 
       // 스타일 수정
@@ -100,7 +105,7 @@ resetButtons.forEach((button) => {
       });
     } else if (this.classList.contains("custom")) {
       // DB 초기화
-      const type = "C";
+      const type = Type.Custom;
       resetExtension(type);
 
       // 확장자 수 초기화
