@@ -266,3 +266,35 @@ body {
 .submit > img {
   margin-left: 10px;
 }
+
+.info {
+  width: 100%;
+  padding: 20px 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background: rgb(144, 0, 254);
+  background: linear-gradient(
+    90deg,
+    rgba(144, 0, 254, 1) 0%,
+    rgba(211, 0, 171, 1) 50%,
+    rgba(41, 144, 209, 1) 100%
+  );
+}
+
+.info > a > p {
+  color: var(--white);
+}
+
+.info > a > p > span {
+  color: #ffe600;
+  font-weight: 700;
+  text-decoration: underline;
+  margin-left: 12px;
+}
