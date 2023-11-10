@@ -25,9 +25,21 @@
       href="../static/css/style.css"
     />
 
-    <title>파일 확장자 차단 | 조형신</title>
+    <title>파일 확장자 차단 Ver2 | 조형신</title>
   </head>
   <body>
+    <div class="info">
+      <a
+        class="link-button"
+        href="https://github.com/Brogod97/file-extension-block/tree/ver1"
+        target="_blank"
+        ><p>
+          파일 확장자 차단 개선점들을 수정하여 File Extension Blocking Ver2를
+          배포 하였습니다. <span>이전 코드 보기</span>
+        </p>
+      </a>
+    </div>
+
     <div class="container">
       <div class="logo">
         <img
@@ -40,7 +52,7 @@
       <section class="fixed-extension">
         <div class="section-header">
           <h3 class="section-title">고정 확장자</h3>
-          <button class="reset-button" onclick="resetExtensionList('F')">
+          <button class="reset-button fixed">
             <span>초기화 하기</span>
             <i class="refresh-icon fa-solid fa-rotate-right"></i>
           </button>
@@ -66,7 +78,7 @@
       <section class="custom-extension">
         <div class="section-header">
           <h3 class="section-title">커스텀 확장자</h3>
-          <div class="reset-button" onclick="resetExtensionList('C')">
+          <div class="reset-button custom">
             <span>초기화 하기</span>
             <i class="refresh-icon fa-solid fa-rotate-right"></i>
           </div>
@@ -74,7 +86,9 @@
 
         <div class="valid-check-info">
           <i class="fa-solid fa-circle-info"></i>
-          <span>확장자는 최대 20글자까지 입력 가능합니다.</span>
+          <span
+            >확장자는 영문 대소문자로, 최대 20글자까지 입력 가능합니다.</span
+          >
         </div>
 
         <div class="custom-extension-input-area">

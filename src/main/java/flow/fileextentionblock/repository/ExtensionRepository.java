@@ -1,19 +1,15 @@
 package flow.fileextentionblock.repository;
 
 import flow.fileextentionblock.domain.Extension;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 public class ExtensionRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -21,53 +17,110 @@ public class ExtensionRepository {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Extension save(Extension extension) {
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("extension").usingGeneratedKeyColumns("id");
-
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", extension.getName());
-        parameters.put("type", extension.getType());
-        parameters.put("checked", "N");
-
-        Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
-        extension.setId(key.longValue());
-
-        return extension;
+    /**
+     * 고정 확장자 checked 토글
+     * @param extension
+     * @return int
+     */
+    public int updateFixedExtension(Extension extension) {
+        return jdbcTemplate.update("update fixed set checked = ? where name = ?;", extension.getChecked(), extension.getName());
     }
 
-    public void update(Extension extension, String toggleValue) {
-        jdbcTemplate.update("update extension set checked = ? where name = ? and type = 'F'", toggleValue, extension.getName());
+    /**
+     * 고정 확장자 초기화
+     * @return int
+     */
+    public int resetFixedExtension() {
+        return jdbcTemplate.update("update fixed set checked = 'N'");
     }
 
-    public void delete(String name) {
-        int result = jdbcTemplate.update("delete from extension where name = ?", name);
+    /**
+     * 체크된 고정 확장자 검색 (단일)
+     * @param name
+     * @return Optional<Extension>
+     */
+    public Optional<Extension> findCheckedFixedExtension(String name) {
+        return jdbcTemplate.query("select * from fixed where name = ? and checked = 'Y'", fixedExtensionRowMapper(), name)
+                .stream().findAny();
     }
 
-    public void reset(String type) {
-        if(type.equals("F")) {
-            jdbcTemplate.update("update extension set checked = 'N' where type = ?", type);
-        } else if(type.equals("C")) {
-            jdbcTemplate.update("delete from extension where type = ?", type);
-        }
+    /**
+     * 고정 확장자 검색 (단일)
+     * @param name
+     * @return Optional<Extension>
+     */
+    public Optional<Extension> findFixedExtension(String name) {
+        return jdbcTemplate.query("select * from fixed where name = ?", fixedExtensionRowMapper(), name)
+                .stream().findAny();
     }
 
-    public Optional<Extension> findByName(String name) {
-        return jdbcTemplate.query("select * from extension where name = ?", extensionRowMapper(), name)
+    /**
+     * 고정 확장자 (전체)
+     * @return List<Extension>
+     */
+    public List<Extension> findAllFixedExtension() {
+        return jdbcTemplate.query("select * from fixed", fixedExtensionRowMapper());
+    }
+
+    /**
+     * 커스텀 확장자 추가
+     * @param extension
+     * @return int
+     */
+    public int saveCustomExtension(Extension extension) {
+        return jdbcTemplate.update("insert into custom(name) values(?)", extension.getName());
+    }
+
+    /**
+     * 커스텀 확장자 삭제
+     * @param extension
+     * @return int
+     */
+    public int deleteCustomExtension(Extension extension) {
+        return jdbcTemplate.update("delete from custom where name = ?", extension.getName());
+    }
+
+    /**
+     * 커스텀 확장자 초기화
+     * @return int
+     */
+    public int resetCustomExtension() {
+        return jdbcTemplate.update("delete from custom");
+    }
+
+    /**
+     * 커스텀 확장자 검색 (단일)
+     * @param name
+     * @return Optional<Extension>
+     */
+    public Optional<Extension> findCustomExtension(String name) {
+        return jdbcTemplate.query("select * from custom where name = ?", customExtensionRowMapper(), name)
                             .stream().findAny();
     }
 
-    public List<Extension> findAllByType(String type) {
-        return jdbcTemplate.query("select * from extension where type = ?", extensionRowMapper(), type);
+    /**
+     * 커스텀 확장자 검색 (전체)
+     * @return List<Extension>
+     */
+    public List<Extension> findAllCustomExtension() {
+        return jdbcTemplate.query("select * from custom", customExtensionRowMapper());
     }
 
-    private RowMapper<Extension> extensionRowMapper() {
+    // 고정 확장자 로우 매퍼
+    private RowMapper<Extension> fixedExtensionRowMapper() {
         return (rs, rowNum) -> {
             Extension extension = new Extension();
-            extension.setId(rs.getLong("id"));
             extension.setName(rs.getString("name"));
-            extension.setType(rs.getString("type"));
             extension.setChecked(rs.getString("checked"));
+            return extension;
+        };
+    }
+
+    // 커스텀 확장자 로우 매퍼
+    private RowMapper<Extension> customExtensionRowMapper() {
+        return (rs, rowNum) -> {
+            Extension extension = new Extension();
+            extension.setName(rs.getString("name"));
             return extension;
         };
     }
