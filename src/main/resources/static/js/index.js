@@ -35,7 +35,7 @@ fixedExtensionItemButtons.forEach((button) => {
     const extensionName = this.textContent;
     let isChecked = this.classList.contains("active") ? "N" : "Y";
 
-    updateFixedExtension(extensionName, Type.Fixed, isChecked);
+    updateExtensionChecked(extensionName, isChecked);
   });
 });
 
@@ -65,7 +65,7 @@ addButton.addEventListener("click", function () {
     alert("커스텀 확장자 최대 저장 횟수를 초과하였습니다.");
   } else {
     if (extensionValidateCheck(newCustomName)) {
-      addCustomExtension(newCustomName, Type.Custom);
+      addCustomExtension(newCustomName);
     } else {
       alert("영문 대소문자를 입력해주세요! (한글, 공백, 특수문자 입력 불가)");
       customExtensionInput.value = "";
@@ -101,8 +101,7 @@ resetButtons.forEach((button) => {
   button.addEventListener("click", function () {
     if (this.classList.contains("fixed")) {
       // DB 초기화
-      const type = Type.Fixed;
-      resetExtension(type);
+      resetFixedExtension();
 
       // 스타일 수정
       fixedExtensionItemButtons.forEach((item) => {
@@ -110,8 +109,7 @@ resetButtons.forEach((button) => {
       });
     } else if (this.classList.contains("custom")) {
       // DB 초기화
-      const type = Type.Custom;
-      resetExtension(type);
+      resetCustomExtension();
 
       // 확장자 수 초기화
       const currentCount = document.querySelector(".current");
@@ -154,30 +152,6 @@ submitButton.addEventListener("click", function () {
   }
 });
 
-/**
- * 파일 제출 시 확장자명 유효성 검사
- * @param fileExtensionName
- */
-function checkValidExtension(fileExtensionName) {
-  $.ajax({
-    url: "checkValidExtension",
-    data: {
-      name: fileExtensionName,
-    },
-    type: "POST",
-    success: function (result) {
-      if (result === true) {
-        alert("제출 성공");
-      } else {
-        alert("제한된 확장자 입니다.");
-      }
-    },
-    error: function () {
-      console.log("checkValidExtension 실패");
-    },
-  });
-}
-
 // Functions
 
 /**
@@ -185,16 +159,86 @@ function checkValidExtension(fileExtensionName) {
  * @param extensionName
  * @param isChecked
  */
-function updateFixedExtension(extensionName, type, isChecked) {
+function updateExtensionChecked(extensionName, isChecked) {
   $.ajax({
-    url: "update",
-    data: { name: extensionName, type: type, checked: isChecked },
+    url: "fixed/update",
     type: "POST",
-    success: function () {
-      console.log("Fixed Extension Update 성공");
+    data: { name: extensionName, checked: isChecked },
+    success: function (result) {
+      if (result === true) {
+        console.log("고정 확장자 checked 업데이트 성공");
+      } else {
+        console.log("고정 확장자 checked 업데이트 실패");
+      }
     },
     error: function () {
-      console.log("Fixed Extension Update 실패");
+      console.log("updateExtensionChecked 요청 실패");
+    },
+  });
+}
+
+/**
+ * 고정 확장자 초기화 요청
+ */
+function resetFixedExtension() {
+  $.ajax({
+    url: "fixed/reset",
+    type: "POST",
+    success: function (result) {
+      if (result === true) {
+        console.log("고정 확장자 초기화 성공");
+      } else {
+        console.log("고정 확장자 초기화 실패");
+      }
+    },
+    error: function () {
+      console.log("고정 확장자 초기화 요청 실패");
+    },
+  });
+}
+
+function resetCustomExtension() {
+  console.log("resetCustomExtension 호출");
+
+  $.ajax({
+    url: "custom/reset",
+    type: "POST",
+    success: function (result) {
+      if (result === true) {
+        console.log("커스텀 확장자 초기화 성공");
+      } else {
+        console.log("커스텀 확장자 초기화 실패");
+      }
+    },
+    error: function () {
+      console.log("커스텀 확장자 초기화 요청 실패");
+    },
+  });
+}
+
+/**
+ * 커스텀 확장자 추가 요청
+ * @param newCustomName
+ */
+function addCustomExtension(newCustomName) {
+  $.ajax({
+    url: "custom/add",
+    data: { name: newCustomName },
+    type: "POST",
+    success: function (result) {
+      if (result === true) {
+        console.log("커스텀 확장자 추가 성공");
+        location.reload();
+      } else {
+        console.log("커스텀 확장자 추가 실패");
+        customExtensionInput.value = "";
+        alert("고정 확장자 기능을 이용해주세요!");
+      }
+    },
+    error: function () {
+      customExtensionInput.value = "";
+      alert("이미 추가된 확장자입니다!");
+      console.log("커스텀 확장자 추가 요청 실패");
     },
   });
 }
@@ -215,33 +259,12 @@ function extensionValidateCheck(name) {
 }
 
 /**
- * 커스텀 확장자 추가 요청
- * @param newCustomName
- */
-function addCustomExtension(newCustomName, type) {
-  $.ajax({
-    url: "add",
-    data: { name: newCustomName, type: type },
-    type: "POST",
-    success: function (result) {
-      console.log("add 성공");
-      location.reload();
-    },
-    error: function () {
-      customExtensionInput.value = "";
-      alert("이미 추가된 확장자입니다.");
-      console.log("add 실패");
-    },
-  });
-}
-
-/**
  * 커스텀 확장자 삭제 요청
  * @param extensionName
  */
 function deleteCustomExtension(extensionName) {
   $.ajax({
-    url: "delete",
+    url: "custom/delete",
     data: {
       name: extensionName,
     },
@@ -257,21 +280,25 @@ function deleteCustomExtension(extensionName) {
 }
 
 /**
- * 확장자 초기화 요청
- * @param type
+ * 파일 제출 시 확장자명 유효성 검사
+ * @param fileExtensionName
  */
-function resetExtension(type) {
+function checkValidExtension(fileExtensionName) {
   $.ajax({
-    url: "reset",
+    url: "checkValidExtension",
     data: {
-      type: type,
+      name: fileExtensionName,
     },
     type: "POST",
-    success: function () {
-      console.log("Extension 초기화 성공");
+    success: function (result) {
+      if (result === true) {
+        alert("제출 성공");
+      } else {
+        alert("제한된 확장자 입니다.");
+      }
     },
     error: function () {
-      console.log("Extension 초기화 실패");
+      console.log("checkValidExtension 실패");
     },
   });
 }
