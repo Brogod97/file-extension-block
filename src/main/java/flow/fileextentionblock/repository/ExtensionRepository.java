@@ -85,7 +85,6 @@ public class ExtensionRepository {
      * @return int
      */
     public int resetCustomExtension() {
-        log.info("커스텀 초기화 리포지토리 도달");
         return jdbcTemplate.update("delete from custom");
     }
 

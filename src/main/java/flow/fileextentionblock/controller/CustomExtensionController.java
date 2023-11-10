@@ -5,8 +5,6 @@ import flow.fileextentionblock.service.ExtensionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Slf4j
 @RestController
 @RequestMapping("custom")
@@ -28,7 +26,8 @@ public class CustomExtensionController {
         extension.setName(name);
 
         for (Extension fixedExtension : extensionService.findAllFixedExtension()) {
-            if(fixedExtension.getName().equals(extension.getName())) { // 새로 들어온 확장자명이 고정 확장자 중 하나일 경우
+            // 새로 들어온 확장자명이 고정 확장자 중 하나일 경우
+            if(fixedExtension.getName().equals(extension.getName())) {
                 return false;
             }
         }
@@ -56,8 +55,6 @@ public class CustomExtensionController {
      */
     @PostMapping("/reset")
     public boolean resetCustomExtension() {
-        log.info("커스텀 초기화 버튼 요청됨");
-
         int result = extensionService.resetCustomExtension();
 
         return result > 0 ? true : false;

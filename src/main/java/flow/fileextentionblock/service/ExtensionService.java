@@ -112,9 +112,6 @@ public class ExtensionService {
         boolean hasFixedExtension = repository.findCheckedFixedExtension(checkName).isPresent();
         boolean hasCustomExtension = repository.findCustomExtension(checkName).isPresent();
 
-        log.info("hasFixedExtension={}", hasFixedExtension);
-        log.info("hasCustomExtension={}", hasCustomExtension);
-
         if(hasFixedExtension || hasCustomExtension) { // 조회된 값이 있는 경우 -> 중복 O
             return false;
         }else { // 중복 X
