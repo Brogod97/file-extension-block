@@ -1,16 +1,14 @@
 package flow.fileextentionblock.controller;
 
 import flow.fileextentionblock.domain.Extension;
+import flow.fileextentionblock.domain.ExtensionType;
 import flow.fileextentionblock.service.ExtensionService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 public class ExtensionController {
 
     private final ExtensionService extensionService;
@@ -19,38 +17,48 @@ public class ExtensionController {
         this.extensionService = extensionService;
     }
 
+    /**
+     * 커스텀 확장자 추가
+     */
     @PostMapping("/add")
-    @ResponseBody
     public Extension addCustomExtension(@ModelAttribute Extension extension) {
         return extensionService.addExtension(extension);
     }
 
+    /**
+     * 고정 확장자 checked 업데이트
+     */
     @PostMapping("/update")
-    @ResponseBody
     public String updateExtensionChecked(@ModelAttribute Extension extension) {
         extensionService.updateExtensionChecked(extension);
 
         return "수정 완료";
     }
 
+    /**
+     * 커스텀 확장자 삭제
+     */
     @PostMapping("/delete")
-    @ResponseBody
     public String deleteCustomExtension(@RequestParam String name) {
         extensionService.deleteExtension(name);
 
         return "삭제 완료";
     }
 
+    /**
+     * [고정 / 커스텀] 확장자 초기화
+     */
     @PostMapping("/reset")
-    @ResponseBody
     public String resetExtension(@RequestParam("type") String type) {
         extensionService.resetExtension(type);
 
         return "요청 수행";
     }
 
+    /**
+     * 확장자명 유효성 검사
+     */
     @PostMapping("/checkValidExtension")
-    @ResponseBody
     public boolean checkValidExtension(@RequestParam String name) {
         Optional<Extension> extension = extensionService.checkValidExtension(name);
 
@@ -58,11 +66,11 @@ public class ExtensionController {
             String checked = extension.get().getChecked();
             String type = extension.get().getType();
 
-            if(type.equals("F")) {
+            if(type.equals(ExtensionType.FIXED)) {
                 return checked.equals("Y") ? false : true;
             }
 
-            if(type.equals("C")){
+            if(type.equals(ExtensionType.CUSTOM)){
                 return false;
             }
         }

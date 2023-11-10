@@ -1,6 +1,7 @@
 package flow.fileextentionblock.repository;
 
 import flow.fileextentionblock.domain.Extension;
+import flow.fileextentionblock.domain.ExtensionType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -45,9 +46,9 @@ public class ExtensionRepository {
     }
 
     public void reset(String type) {
-        if(type.equals("F")) {
+        if(type.equals(ExtensionType.FIXED.getValue())) {
             jdbcTemplate.update("update extension set checked = 'N' where type = ?", type);
-        } else if(type.equals("C")) {
+        } else if(type.equals(ExtensionType.CUSTOM.getValue())) {
             jdbcTemplate.update("delete from extension where type = ?", type);
         }
     }
