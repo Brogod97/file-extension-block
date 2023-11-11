@@ -143,10 +143,13 @@ fileInput.addEventListener("change", function () {
  * 파일 업로드 제출 버튼 클릭 시 유효성 검사
  */
 submitButton.addEventListener("click", function () {
-  if (fileInput.files.length > 0) {
-    const fileExtensionName = fileInput.files[0].name.split(".")[1];
+  const fileList = fileInput.files;
 
-    checkValidExtension(fileExtensionName);
+  if (fileList.length > 0) {
+    const fileNameArray = fileList[0].name.split(".");
+    const extensionName = fileNameArray[fileNameArray.length - 1];
+
+    checkValidExtension(extensionName);
   } else {
     alert("파일을 선택해주세요");
   }
